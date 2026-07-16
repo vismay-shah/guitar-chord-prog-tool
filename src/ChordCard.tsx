@@ -1,7 +1,8 @@
 // ChordCard.tsx
 import React, { useRef, useEffect } from 'react';
 import type { MeasureSlot } from './types';
-import { SLOT_OPTIONS } from './types';
+import { CHORD_FINGERINGS, SLOT_OPTIONS } from './types';
+import { GuitarChordDiagram } from './GuitarChordDiagram';
 
 interface ChordCardProps {
    chord: MeasureSlot;
@@ -36,7 +37,7 @@ export const ChordCard: React.FC<ChordCardProps> = ({
    return (
       <div 
          ref={cardRef} // Attached ref
-         className={`relative flex h-56 w-full flex-none flex-col overflow-hidden snap-center rounded-sm border-2 transition-all sm:w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.66rem)] ${
+         className={`relative flex h-56 w-half flex-none flex-col overflow-hidden snap-center rounded-sm border-2 transition-all sm:w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.66rem)] ${
             isActive 
                ? 'border-black bg-gray-100 shadow-[0_0_10px_rgba(0,0,0,0.1)]' 
                : 'border-gray-300 bg-white hover:border-gray-400'
@@ -60,9 +61,11 @@ export const ChordCard: React.FC<ChordCardProps> = ({
 
          {/* Center Display */}
          <div className="flex flex-grow items-center justify-center pointer-events-none">
-            <span className="text-5xl font-semibold text-gray-900">
-               {chord === 'rest' ? '-' : chord}
-            </span>
+            {chord === 'rest' ? (
+               <span className="text-5xl font-semibold text-gray-400">-</span>
+            ) : (
+               <GuitarChordDiagram fingering={CHORD_FINGERINGS[chord]} />
+            )}
          </div>
          
          {/* Dropdown Selector */}
